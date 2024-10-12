@@ -2,12 +2,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.jscoe</groupId>
+        <groupId>com.honor</groupId>
         <artifactId>springboot3-base</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.jscoe.backend</groupId>
     <artifactId>rest-backend</artifactId>
-    <name>Archetype - rest-backend</name>
+    <name>rest-backend</name>
     <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.honor</groupId>
+            <artifactId>core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
