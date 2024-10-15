@@ -1,6 +1,7 @@
 package com.honor.infrastructure.common.actor;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author honor

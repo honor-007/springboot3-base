@@ -1,9 +1,7 @@
 package com.honor.infrastructure.conf.cache;
 
-import ch.qos.logback.core.util.TimeUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import net.sf.jsqlparser.statement.select.KSQLWindow;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableCaching
 public class CacheConfiguration {
-    @Value("${account.token.timeout}")
+    @Value("${sa-token.timeout}")
     private long timeout;
 
     @Bean

@@ -19,8 +19,9 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseEntity {
+public class BaseLogicEntity {
     @TableField(fill = FieldFill.INSERT)
+    @TableLogic
     private Boolean isDeleted;
     @TableField(fill = FieldFill.INSERT)
     private Instant createdAt;

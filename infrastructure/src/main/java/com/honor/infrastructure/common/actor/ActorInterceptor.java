@@ -1,11 +1,16 @@
 package com.honor.infrastructure.common.actor;
 
 import cn.dev33.satoken.stp.StpUtil;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.util.Enumeration;
 
 
 /**
@@ -21,6 +26,10 @@ public class ActorInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        StringBuffer requestURL = request.getRequestURL();
+        if(requestURL.toString().contains("doc.html")||requestURL.toString().contains("v3")){
+            return true;
+        }
         String loginId = StpUtil.getLoginIdAsString();
         Actor actor = userCacheProvider.getCache(loginId,Actor.class);
         ActorInfoThreadHolder.addCurrentUser(actor);

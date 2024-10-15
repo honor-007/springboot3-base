@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
+/**
+ * @author honor
+ */
 @Component
 public class StringToInstantConverter implements Converter<String, Instant> {
     @Override

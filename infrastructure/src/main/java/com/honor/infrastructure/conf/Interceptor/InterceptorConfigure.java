@@ -1,9 +1,10 @@
-package com.honor.infrastructure.conf.satoekn;
+package com.honor.infrastructure.conf.Interceptor;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import com.honor.infrastructure.common.actor.ActorInterceptor;
+import com.honor.infrastructure.conf.knife4j.FaviconInterceptor;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -20,19 +21,10 @@ import java.util.List;
  */
 @Configuration
 @AllArgsConstructor
-public class SaTokenInterceptorConfigure implements WebMvcConfigurer {
+public class InterceptorConfigure implements WebMvcConfigurer {
 
     private final ActorInterceptor actorInterceptor;
-
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedHeaders("*")
-//                .allowedMethods("*")
-//                .maxAge(1800)
-//                .allowedOrigins("*");
-//    }
-
+    private final FaviconInterceptor faviconInterceptor;
 
     // 注册拦截器
     @Override
@@ -57,22 +49,30 @@ public class SaTokenInterceptorConfigure implements WebMvcConfigurer {
 
         List<String> userUrls = List.of("/api/backend/user/users/**", "/api/backend/account/sign-in/**");
 
+        List<String> excludePathPatterns = new ArrayList<>();
+        excludePathPatterns.addAll(knife4jUrls);
+        excludePathPatterns.addAll(userUrls);
 
         // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
         registry.addInterceptor(new SaInterceptor(handle -> {
                     SaRouter
                             .match("/**")    // 拦截的 path 列表，可以写多个 */
-                            .notMatch(knife4jUrls)
-                            .notMatch(userUrls)
+                            .notMatch(excludePathPatterns)
                             .check(r -> {
                                 StpUtil.checkLogin();
                             });
                 }))
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .order(2);
+
+        registry.addInterceptor(faviconInterceptor)
+                .addPathPatterns("/favicon.ico")
+                .order(3);
 
         registry.addInterceptor(actorInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns(userUrls);
+                .excludePathPatterns(excludePathPatterns)
+                .order(4);
     }
 
 }
