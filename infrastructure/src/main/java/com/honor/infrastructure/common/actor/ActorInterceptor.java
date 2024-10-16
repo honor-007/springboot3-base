@@ -26,10 +26,6 @@ public class ActorInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        StringBuffer requestURL = request.getRequestURL();
-        if(requestURL.toString().contains("doc.html")||requestURL.toString().contains("v3")){
-            return true;
-        }
         String loginId = StpUtil.getLoginIdAsString();
         Actor actor = userCacheProvider.getCache(loginId,Actor.class);
         ActorInfoThreadHolder.addCurrentUser(actor);
